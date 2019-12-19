@@ -1,0 +1,88 @@
+sudo: false
+language: cpp
+dist: xenial
+
+env:
+  global:
+    # Maintenance note: to move to a new version
+    # of boost, update both BOOST_ROOT and BOOST_URL.
+    # Note that for simplicity, BOOST_ROOT's final
+    # namepart must match the folder name internal
+    # to boost's .tar.gz.
+    - LCOV_ROOT=$HOME/lcov
+    - LCOV_EXCLUDE_FILES="*/src/test/*"
+    - BOOST_ROOT=$HOME/boost_1_67_0
+    - BOOST_URL='http://sourceforge.net/projects/boost/files/boost/1.67.0/boost_1_67_0.tar.gz'
+    - APP=validator-keys
+    - APP_ARGS=--unittest
+    - VERBOSE_BUILD=true
+    - GCC_VER=7
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-xenial-7
+    packages:
+      - gcc-7
+      - g++-7
+      - gcc-8
+      - g++-8
+      - python-software-properties
+      - protobuf-compiler
+      - libprotobuf-dev
+      - libssl-dev
+      - libstdc++6
+      - binutils-gold
+      - gdb
+      - texinfo
+      - cmake
+      - lcov
+      - llvm-7
+      - clang-7
+
+matrix:
+  include:
+
+    - compiler: gcc
+      env:
+      - BUILD_TYPE=Debug
+      - CMAKE_EXTRA_ARGS=-Dcoverage=ON
+
+    - compiler: clang
+      env:
+      - BUILD_TYPE=Debug
+
+    - compiler: gcc
+      env:
+      - BUILD_TYPE=Release
+
+    - compiler: clang
+      env:
+      - BUILD_TYPE=Release
+
+    - compiler: gcc
+      env:
+      - BUILD_TYPE=Debug
+      - CMAKE_EXTRA_ARGS=-Drippled_tag=master
+
+    - compiler: gcc
+      env:
+      - BUILD_TYPE=Debug
+      - CMAKE_EXTRA_ARGS=-Drippled_tag=develop
+
+cache:
+  directories:
+  - $BOOST_ROOT
+
+before_install:
+  - ( ci/install-dependencies.sh )
+  - export PATH=/usr/local/bin:$PATH
+
+script:
+  - ci/build-and-test.sh
+
+notifications:
+  email:
+    false
+
