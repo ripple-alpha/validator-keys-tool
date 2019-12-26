@@ -114,7 +114,7 @@ void createToken (boost::filesystem::path const& keyFile)
     // Update key file with new token sequence
     keys.writeToFile (keyFile);
 
-    std::cout << "Update rippled.cfg file with these values and restart rippled:\n\n";
+    std::cout << "Update ripple-alpha-core.cfg file with these values and restart ripple-alpha-core:\n\n";
     std::cout << "# validator public key: " <<
               toBase58 (TokenType::NodePublic, keys.publicKey()) << "\n\n";
     std::cout << "[validator_token]\n";
@@ -143,7 +143,7 @@ void createRevocation (boost::filesystem::path const& keyFile)
     // Update key file with new token sequence
     keys.writeToFile (keyFile);
 
-    std::cout << "Update rippled.cfg file with these values and restart rippled:\n\n";
+    std::cout << "Update ripple-alpha-core.cfg file with these values and restart ripple-alpha-core:\n\n";
     std::cout << "# validator public key: " <<
         toBase58 (TokenType::NodePublic, keys.publicKey()) << "\n\n";
     std::cout << "[validator_key_revocation]\n";
@@ -229,8 +229,8 @@ void setDomain (std::string const& domain,
     attestDomain(keys);
 
     std::cout << "\n";
-    std::cout << "You also need to update the rippled.cfg file to add a new\n";
-    std::cout << "validator token and restart rippled:\n\n";
+    std::cout << "You also need to update the ripple-alpha-core.cfg file to add a new\n";
+    std::cout << "validator token and restart ripple-alpha-core:\n\n";
     std::cout << "# validator public key: " <<
               toBase58 (TokenType::NodePublic, keys.publicKey()) << "\n\n";
     std::cout << "[validator_token]\n";

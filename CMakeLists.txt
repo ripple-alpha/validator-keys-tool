@@ -3,8 +3,8 @@ cmake_minimum_required (VERSION 3.11)
 project (validator-keys-tool)
 #[===========================================[
   The tool depends on the xrpl_core
-  library which is defined by the rippled
-  project. This looks for installed rippled
+  library which is defined by the ripple-alpha-core
+  project. This looks for installed ripple-alpha-core
   libs and, if not found, pulls them in with
   FetchContent.
 #]===========================================]
@@ -31,16 +31,16 @@ if (NOT has_parent)
 
     # rippled_tag is cache string and can be overriden when configuring
     # with -Drippled_tag=commit_or_tag in order to pick a specific
-    # rippled version to download. Default tag is develop/master/release as 
+    # ripple-alpha-core version to download. Default tag is develop/master/release as 
     # determined by the branch of this project
     if (NOT (_branch STREQUAL "master" OR _branch STREQUAL "release"))
       set (rippled_tag "develop" CACHE STRING
-        "tag/commit of rippled to fetch from if a local install is not found")
+        "tag/commit of ripple-alpha-core to fetch from if a local install is not found")
     else ()
       set (rippled_tag "${_branch}" CACHE STRING
-        "tag/commit of rippled to fetch from if a local install is not found")
+        "tag/commit of ripple-alpha-core to fetch from if a local install is not found")
     endif ()
-    message(STATUS "Installed rippled not found... \
+    message(STATUS "Installed ripple-alpha-core not found... \
       using local copy from tag/commit [${rippled_tag}]")
     include (FetchContent)
     FetchContent_Declare(
@@ -50,7 +50,7 @@ if (NOT has_parent)
     )
     FetchContent_GetProperties(rippled_src)
     if(NOT rippled_src_POPULATED)
-      message (STATUS "Pausing to download rippled source...")
+      message (STATUS "Pausing to download ripple-alpha-core source...")
       FetchContent_Populate(rippled_src)
     endif()
     add_subdirectory(${rippled_src_SOURCE_DIR} xrpl_core)
